@@ -1,10 +1,12 @@
 package com.learnflow.repository;
 
 import com.learnflow.model.User;
+import com.learnflow.model.Role;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.Optional;
 
 public interface UserRepository extends MongoRepository<User, String> {
     Optional<User> findByEmail(String email);
     boolean existsByEmail(String email);
+    long countByRole(Role role);
 }
