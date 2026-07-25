@@ -1,122 +1,167 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Toaster } from 'react-hot-toast';
+import { useAuthStore } from './store/authStore';
 
-function App() {
-  const [count, setCount] = useState(0)
+// Common Components
+import { Navbar } from './components/common/Navbar';
+import { ProtectedRoute } from './components/common/ProtectedRoute';
+
+// Auth Pages
+import { LoginPage } from './pages/auth/LoginPage';
+import { RegisterPage } from './pages/auth/RegisterPage';
+import { VerifyEmailPage } from './pages/auth/VerifyEmailPage';
+import { ForgotPasswordPage } from './pages/auth/ForgotPasswordPage';
+import { Unauthorized } from './pages/Unauthorized';
+
+// Student Pages
+import { Browse } from './pages/student/Browse';
+import { CourseDetail } from './pages/student/CourseDetail';
+import { CartPage } from './pages/student/CartPage';
+import { StudentDashboard } from './pages/student/Dashboard';
+import { CourseViewer } from './pages/student/CourseViewer';
+import { InstructorRegister } from './pages/instructor/InstructorRegister';
+
+// Instructor Pages
+import { InstructorDashboard } from './pages/instructor/Dashboard';
+import { CourseManagement } from './pages/instructor/CourseManagement';
+import { QuizManagement } from './pages/instructor/QuizManagement';
+
+// Admin Pages
+import { AdminDashboard } from './pages/admin/Dashboard';
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: 1,
+    },
+  },
+});
+
+export const App: React.FC = () => {
+  const initialize = useAuthStore((state) => state.initialize);
+
+  useEffect(() => {
+    initialize();
+  }, [initialize]);
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <QueryClientProvider client={queryClient}>
+      <Router>
+        <div className="flex flex-col min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-brand-500 selection:text-slate-950">
+          <Navbar />
+          
+          <main className="flex-grow">
+            <Routes>
+              {/* Public Routes */}
+              <Route path="/" element={<Navigate to="/browse" replace />} />
+              <Route path="/browse" element={<Browse />} />
+              <Route path="/course/:id" element={<CourseDetail />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
+              <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+              <Route path="/unauthorized" element={<Unauthorized />} />
 
-      <div className="ticks"></div>
+              {/* Verified Protected Student Routes */}
+              <Route
+                path="/verify-email"
+                element={
+                  <ProtectedRoute requireVerified={false}>
+                    <VerifyEmailPage />
+                  </ProtectedRoute>
+                }
+              />
+              
+              <Route
+                path="/dashboard"
+                element={
+                  <ProtectedRoute allowedRoles={['STUDENT']}>
+                    <StudentDashboard />
+                  </ProtectedRoute>
+                }
+              />
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
+              <Route
+                path="/course/:id/learn"
+                element={
+                  <ProtectedRoute allowedRoles={['STUDENT', 'INSTRUCTOR', 'ADMIN']}>
+                    <CourseViewer />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/cart"
+                element={
+                  <ProtectedRoute allowedRoles={['STUDENT']}>
+                    <CartPage />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/instructor/register"
+                element={
+                  <ProtectedRoute allowedRoles={['STUDENT']}>
+                    <InstructorRegister />
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* Instructor Protected Routes */}
+              <Route
+                path="/instructor/dashboard"
+                element={
+                  <ProtectedRoute allowedRoles={['INSTRUCTOR', 'ADMIN']}>
+                    <InstructorDashboard />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/instructor/course/:id"
+                element={
+                  <ProtectedRoute allowedRoles={['INSTRUCTOR', 'ADMIN']}>
+                    <CourseManagement />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/instructor/quiz/:lessonId"
+                element={
+                  <ProtectedRoute allowedRoles={['INSTRUCTOR', 'ADMIN']}>
+                    <QuizManagement />
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* Admin Protected Routes */}
+              <Route
+                path="/admin/dashboard"
+                element={
+                  <ProtectedRoute allowedRoles={['ADMIN']}>
+                    <AdminDashboard />
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* Catch-all */}
+              <Route path="*" element={<Navigate to="/browse" replace />} />
+            </Routes>
+          </main>
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
-}
-
-export default App
+      </Router>
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          className: 'bg-slate-900 text-slate-100 border border-slate-800 rounded-xl',
+          duration: 4000,
+        }}
+      />
+    </QueryClientProvider>
+  );
+};
+export default App;
