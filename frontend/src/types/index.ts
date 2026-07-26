@@ -1,9 +1,11 @@
+// All shared TypeScript types for LearnFlow
+
 export type Role = 'STUDENT' | 'INSTRUCTOR' | 'ADMIN';
 export type Level = 'BEGINNER' | 'INTERMEDIATE' | 'ADVANCED';
 export type RequestStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
 export type PaymentStatus = 'CREATED' | 'PAID' | 'FAILED';
 
-export interface User {
+export type User = {
   id: string;
   name: string;
   email: string;
@@ -11,9 +13,9 @@ export interface User {
   avatar: string;
   isVerified: boolean;
   enrolledCourses: string[];
-}
+};
 
-export interface Course {
+export type Course = {
   id: string;
   title: string;
   slug: string;
@@ -30,9 +32,9 @@ export interface Course {
   rating: number;
   createdAt: string;
   updatedAt: string;
-}
+};
 
-export interface Lesson {
+export type Lesson = {
   id: string;
   courseId: string;
   title: string;
@@ -44,64 +46,64 @@ export interface Lesson {
   order: number;
   isFree: boolean;
   createdAt: string;
-}
+};
 
-export interface Mcq {
+export type Mcq = {
   question: string;
   options: string[];
   correctIndex: number;
-}
+};
 
-export interface TheoryQuestion {
+export type TheoryQuestion = {
   question: string;
   answer: string;
-}
+};
 
-export interface Quiz {
+export type Quiz = {
   id: string;
   lessonId: string;
   mcqs: Mcq[];
   theoryQuestions: TheoryQuestion[];
   createdAt: string;
-}
+};
 
-export interface Cart {
+export type Cart = {
   id: string;
   userId: string;
   courseIds: string[];
   updatedAt: string;
-}
+};
 
-export interface LessonProgress {
+export type LessonProgress = {
   lessonId: string;
   videoWatched: boolean;
   quizScore: number;
   notesDownloaded: boolean;
-}
+};
 
-export interface UserProgress {
+export type UserProgress = {
   id: string;
   courseId: string;
   userId: string;
   progress: LessonProgress[];
   completedAt?: string;
   createdAt: string;
-}
+};
 
-export interface Message {
+export type Message = {
   userId: string;
   username: string;
   message: string;
   createdAt: string;
-}
+};
 
-export interface Discussion {
+export type Discussion = {
   id: string;
   courseId: string;
   messages: Message[];
-}
+};
 
-export interface PendingRequest {
+export type PendingRequest = {
   id: string;
   instructorId: string;
   instructorName?: string;
@@ -110,4 +112,4 @@ export interface PendingRequest {
   idProofUrl: string;
   status: RequestStatus;
   createdAt: string;
-}
+};

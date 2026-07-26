@@ -4,6 +4,7 @@ import { BookOpen, Award, PlayCircle, Star, Compass, ArrowRight } from 'lucide-r
 import { useAuthStore } from '../../store/authStore';
 import { useCourses } from '../../hooks/queries';
 import api from '../../api/axios';
+import { Button } from '../../components/ui/Button';
 import { Card } from '../../components/ui/Card';
 import { Badge } from '../../components/ui/Badge';
 import { Progress } from '../../components/ui/Progress';
