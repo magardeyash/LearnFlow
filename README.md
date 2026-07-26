@@ -18,11 +18,6 @@ Supports student enrollment, instructor course authoring, Razorpay payments, AWS
 [![Razorpay](https://img.shields.io/badge/Razorpay-Payments-02042B?style=flat-square&logo=razorpay&logoColor=white)](https://razorpay.com)
 [![JWT](https://img.shields.io/badge/JWT-Auth-000000?style=flat-square&logo=jsonwebtokens&logoColor=white)](https://jwt.io)
 
-<br/>
-
-![License](https://img.shields.io/github/license/magardeyash/LearnFlow?style=flat-square)
-![Last Commit](https://img.shields.io/github/last-commit/magardeyash/LearnFlow?style=flat-square&color=22c55e)
-![Repo Size](https://img.shields.io/github/repo-size/magardeyash/LearnFlow?style=flat-square)
 
 </div>
 
