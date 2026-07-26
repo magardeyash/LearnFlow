@@ -23,7 +23,7 @@ Supports student enrollment, instructor course authoring, Razorpay payments, AWS
 
 ---
 
-## 📑 Table of Contents
+## Table of Contents
 
 - [Overview](#-overview)
 - [Features](#-features)
@@ -42,7 +42,7 @@ Supports student enrollment, instructor course authoring, Razorpay payments, AWS
 
 ---
 
-## 🌐 Overview
+## Overview
 
 LearnFlow is a full-stack Learning Management System (LMS) built to production-ready standards. It enables instructors to create and publish courses, students to discover, purchase, and learn from them — and administrators to verify instructor credentials and monitor platform health.
 
@@ -50,9 +50,9 @@ The system implements secure JWT authentication, email OTP verification, direct-
 
 ---
 
-## ✨ Features
+## Features
 
-### 🎓 For Students
+### For Students
 - Browse and search courses by category, difficulty level, and price
 - Purchase individual courses via Razorpay (test & live modes)
 - Add courses to cart and checkout in bulk
@@ -63,19 +63,19 @@ The system implements secure JWT authentication, email OTP verification, direct-
 - Participate in per-course discussion forums
 - Apply to become an instructor (document upload flow)
 
-### 🧑‍🏫 For Instructors
+### For Instructors
 - Create and manage courses (title, description, thumbnail, level, pricing)
 - Upload lecture videos and PDF notes directly to AWS S3
 - Add MCQ and theory quizzes per lecture
 - Toggle free preview for individual lessons
 - Track student enrollment numbers and revenue
 
-### 🛡️ For Admins
+### For Admins
 - View platform-wide statistics (students, instructors, courses, revenue)
 - Review instructor applications (resume + ID proof)
 - Approve or reject applicants with automated email notification
 
-### 🔐 Authentication & Security
+### Authentication & Security
 - JWT Bearer token authentication (stateless)
 - Email OTP verification on registration
 - Password reset via OTP (3-step flow)
@@ -85,7 +85,7 @@ The system implements secure JWT authentication, email OTP verification, direct-
 
 ---
 
-## 🛠 Tech Stack
+## Tech Stack
 
 ### Backend
 | Layer | Technology |
@@ -117,28 +117,28 @@ The system implements secure JWT authentication, email OTP verification, direct-
 
 ---
 
-## 🏗 Architecture
+## Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                        Client (Browser)                      │
+│                        Client (Browser)                     │
 │              React 19 + Vite 5 + TypeScript                 │
 │         Zustand (state) │ TanStack Query (server state)     │
 └────────────────────────┬────────────────────────────────────┘
                          │  REST API (JSON)
                          │  Authorization: Bearer <JWT>
 ┌────────────────────────▼────────────────────────────────────┐
-│                  Spring Boot 3 Backend                       │
-│                     (Port 8080)                              │
+│                  Spring Boot 3 Backend                      │
+│                     (Port 8080)                             │
 │  ┌──────────────┐  ┌───────────────┐  ┌──────────────────┐  │
 │  │  Controllers │  │   Services    │  │   Security Layer │  │
 │  │  (REST API)  │→ │ (Business     │  │ JWT Filter       │  │
 │  │              │  │  Logic)       │  │ BCrypt           │  │
 │  └──────────────┘  └───────┬───────┘  └──────────────────┘  │
-│                            │                                  │
-│  ┌─────────────────────────▼──────────────────────────────┐  │
-│  │              Spring Data MongoDB Repositories          │  │
-│  └─────────────────────────┬──────────────────────────────┘  │
+│                            │                                │
+│  ┌─────────────────────────▼──────────────────────────────┐ │
+│  │              Spring Data MongoDB Repositories          │ │
+│  └─────────────────────────┬──────────────────────────────┘ │
 └────────────────────────────┼────────────────────────────────┘
                              │
          ┌───────────────────┼──────────────────────┐
@@ -151,7 +151,7 @@ The system implements secure JWT authentication, email OTP verification, direct-
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 LearnFlow/
@@ -189,7 +189,7 @@ LearnFlow/
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -240,7 +240,7 @@ The app is available at **http://localhost:5173**
 
 ---
 
-## 🔑 Environment Variables
+## Environment Variables
 
 ### Backend — `application.properties`
 
@@ -280,7 +280,7 @@ VITE_RAZORPAY_KEY_ID=rzp_test_xxxxxxxxxxxx
 
 ---
 
-## 📡 API Reference
+## API Reference
 
 ### Authentication
 | Method | Endpoint | Description |
@@ -335,7 +335,7 @@ VITE_RAZORPAY_KEY_ID=rzp_test_xxxxxxxxxxxx
 
 ---
 
-## 👥 User Roles
+## User Roles
 
 | Role | Access Level |
 |---|---|
@@ -350,7 +350,7 @@ VITE_RAZORPAY_KEY_ID=rzp_test_xxxxxxxxxxxx
 
 ---
 
-## 🗄 Data Models
+## Data Models
 
 The MongoDB database consists of **10 collections**:
 
@@ -369,7 +369,7 @@ The MongoDB database consists of **10 collections**:
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please follow these steps:
 
@@ -385,8 +385,5 @@ Please follow [Conventional Commits](https://www.conventionalcommits.org) for co
 
 <div align="center">
 
-Built with ❤️ by [Yash Magarde](https://github.com/magardeyash)
-
-⭐ Star this repo if you found it useful!
-
+Built with by [Yash Magarde](https://github.com/magardeyash)
 </div>
