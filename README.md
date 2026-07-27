@@ -368,10 +368,3 @@ The MongoDB database consists of **10 collections**:
 | `payments` | Payment records with Razorpay order/payment IDs and status |
 
 ---
-
----
-
-<div align="center">
-
-Built with by [Yash Magarde](https://github.com/magardeyash)
-</div>
