@@ -369,18 +369,6 @@ The MongoDB database consists of **10 collections**:
 
 ---
 
-## Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. **Fork** the repository
-2. **Create** a feature branch: `git checkout -b feat/your-feature-name`
-3. **Commit** your changes: `git commit -m "feat: add your feature"`
-4. **Push** to the branch: `git push origin feat/your-feature-name`
-5. **Open** a Pull Request
-
-Please follow [Conventional Commits](https://www.conventionalcommits.org) for commit messages.
-
 ---
 
 <div align="center">
