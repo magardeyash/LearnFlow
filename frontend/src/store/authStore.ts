@@ -16,9 +16,10 @@ export const useAuthStore = create<AuthState>((set) => ({
   token: null,
   isAuthenticated: false,
   login: (token, user) => {
+    const sanitizedUser = { ...user, enrolledCourses: user.enrolledCourses || [] };
     localStorage.setItem('token', token);
-    localStorage.setItem('user', JSON.stringify(user));
-    set({ token, user, isAuthenticated: true });
+    localStorage.setItem('user', JSON.stringify(sanitizedUser));
+    set({ token, user: sanitizedUser, isAuthenticated: true });
   },
   logout: () => {
     localStorage.removeItem('token');
@@ -31,7 +32,8 @@ export const useAuthStore = create<AuthState>((set) => ({
     if (token && userStr) {
       try {
         const user = JSON.parse(userStr);
-        set({ token, user, isAuthenticated: true });
+        const sanitizedUser = { ...user, enrolledCourses: user.enrolledCourses || [] };
+        set({ token, user: sanitizedUser, isAuthenticated: true });
         return true;
       } catch (e) {
         localStorage.removeItem('token');
@@ -41,7 +43,8 @@ export const useAuthStore = create<AuthState>((set) => ({
     return false;
   },
   updateUser: (user) => {
-    localStorage.setItem('user', JSON.stringify(user));
-    set({ user });
+    const sanitizedUser = { ...user, enrolledCourses: user.enrolledCourses || [] };
+    localStorage.setItem('user', JSON.stringify(sanitizedUser));
+    set({ user: sanitizedUser });
   }
 }));

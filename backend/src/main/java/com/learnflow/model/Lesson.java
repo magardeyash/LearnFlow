@@ -34,7 +34,17 @@ public class Lesson {
     
     private int order;
     
+    @org.springframework.data.mongodb.core.mapping.Field("isFree")
+    @com.fasterxml.jackson.annotation.JsonProperty("isFree")
     private boolean isFree;
+
+    public boolean isFree() {
+        return this.isFree;
+    }
+
+    public void setFree(boolean isFree) {
+        this.isFree = isFree;
+    }
     
     @CreatedDate
     private Instant createdAt;

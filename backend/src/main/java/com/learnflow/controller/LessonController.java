@@ -28,7 +28,8 @@ public class LessonController {
 
     @GetMapping("/course/{courseId}")
     public ResponseEntity<List<Lesson>> getLessonsForCourse(@PathVariable String courseId, Principal principal) {
-        return ResponseEntity.ok(lessonService.getLessonsForCourse(courseId, principal.getName()));
+        String email = principal != null ? principal.getName() : null;
+        return ResponseEntity.ok(lessonService.getLessonsForCourse(courseId, email));
     }
 
     @PutMapping("/{id}")

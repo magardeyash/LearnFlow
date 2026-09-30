@@ -100,7 +100,7 @@ export const StudentDashboard: React.FC = () => {
   const { data: allCourses, isLoading } = useCourses();
   
   const enrolledCourses = allCourses?.filter((c) => 
-    user?.enrolledCourses.includes(c.id)
+    (user?.enrolledCourses || []).includes(c.id)
   ) || [];
 
   return (

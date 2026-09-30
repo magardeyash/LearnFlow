@@ -33,7 +33,17 @@ public class User {
     private Role role = Role.STUDENT;
     
     @Builder.Default
+    @org.springframework.data.mongodb.core.mapping.Field("isVerified")
+    @com.fasterxml.jackson.annotation.JsonProperty("isVerified")
     private boolean isVerified = false;
+
+    public boolean isVerified() {
+        return this.isVerified;
+    }
+
+    public void setVerified(boolean isVerified) {
+        this.isVerified = isVerified;
+    }
     
     @Builder.Default
     private List<String> enrolledCourses = new ArrayList<>();

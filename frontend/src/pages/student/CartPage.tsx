@@ -80,7 +80,7 @@ export const CartPage: React.FC = () => {
             if (user) {
               updateUser({
                 ...user,
-                enrolledCourses: [...user.enrolledCourses, courseId],
+                enrolledCourses: [...(user.enrolledCourses || []), courseId],
               });
             }
 
@@ -97,6 +97,21 @@ export const CartPage: React.FC = () => {
         prefill: {
           name: user?.name || '',
           email: user?.email || '',
+        },
+        method: {
+          upi: true,
+          card: true,
+          netbanking: true,
+          wallet: true,
+          emi: false,
+        },
+        config: {
+          display: {
+            hide: [],
+            preferences: {
+              show_default_blocks: true,
+            },
+          },
         },
         theme: {
           color: '#16a34a',
@@ -154,7 +169,7 @@ export const CartPage: React.FC = () => {
                 <div className="flex-1 min-w-0 text-center sm:text-left">
                   <h3 className="text-sm font-bold text-slate-100 truncate">{course.title}</h3>
                   <p className="text-xs text-slate-400 mt-0.5 truncate">{course.category}</p>
-                  <p className="text-sm font-black text-brand-500 mt-2">${course.price.toFixed(2)}</p>
+                  <p className="text-sm font-black text-brand-500 mt-2">₹{course.price.toFixed(0)}</p>
                 </div>
 
                 <div className="flex gap-2 flex-col sm:flex-row w-full sm:w-auto mt-2 sm:mt-0">
@@ -196,7 +211,7 @@ export const CartPage: React.FC = () => {
                 <div className="flex justify-between text-base font-bold text-slate-150 border-t border-slate-850 pt-3">
                   <span className="text-slate-200">Total Price</span>
                   <span className="text-brand-500">
-                    ${cartItems.reduce((acc, item) => acc + item.price, 0).toFixed(2)}
+                    ₹{cartItems.reduce((acc, item) => acc + item.price, 0).toFixed(0)}
                   </span>
                 </div>
               </div>

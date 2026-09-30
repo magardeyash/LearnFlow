@@ -18,6 +18,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -36,21 +41,24 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf(AbstractHttpConfigurer::disable)
-            .cors(cors -> {})
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/upload/**").permitAll()
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                 
-                // Course authorization rules
+                // Specific course rules must come BEFORE generic course rules
+                .requestMatchers(HttpMethod.GET, "/api/courses/my").hasRole("INSTRUCTOR")
                 .requestMatchers(HttpMethod.POST, "/api/courses").hasRole("INSTRUCTOR")
                 .requestMatchers(HttpMethod.PUT, "/api/courses/**").hasAnyRole("INSTRUCTOR", "ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/api/courses/**").hasAnyRole("INSTRUCTOR", "ADMIN")
-                .requestMatchers("/api/courses/my").hasRole("INSTRUCTOR")
+                .requestMatchers(HttpMethod.GET, "/api/courses", "/api/courses/**").permitAll()
                 
                 // Lesson authorization rules
                 .requestMatchers(HttpMethod.POST, "/api/lessons/**").hasRole("INSTRUCTOR")
                 .requestMatchers(HttpMethod.PUT, "/api/lessons/**").hasRole("INSTRUCTOR")
                 .requestMatchers(HttpMethod.DELETE, "/api/lessons/**").hasRole("INSTRUCTOR")
+                .requestMatchers(HttpMethod.GET, "/api/lessons/course/**").permitAll()
                 
                 // Quiz authoring
                 .requestMatchers(HttpMethod.POST, "/api/quiz").hasRole("INSTRUCTOR")
@@ -65,6 +73,18 @@ public class SecurityConfig {
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOriginPatterns(List.of("*"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 
     @Bean

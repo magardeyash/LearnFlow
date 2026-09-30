@@ -23,7 +23,7 @@ export const VerifyEmailPage: React.FC = () => {
   }, [isAuthenticated, user, navigate]);
 
   useEffect(() => {
-    let interval: NodeJS.Timeout;
+    let interval: ReturnType<typeof setInterval>;
     if (timer > 0) {
       interval = setInterval(() => {
         setTimer((prev) => prev - 1);

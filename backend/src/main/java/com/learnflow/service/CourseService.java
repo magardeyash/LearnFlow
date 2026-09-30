@@ -127,22 +127,26 @@ public class CourseService {
 
     public List<Course> getCourses(String search, String category, Level level, Double maxPrice) {
         Query query = new Query();
-        query.addCriteria(Criteria.where("isPublished").is(true));
+        query.addCriteria(new Criteria().orOperator(
+                Criteria.where("isPublished").is(true),
+                Criteria.where("published").is(true)
+        ));
 
         if (category != null && !category.trim().isEmpty()) {
-            query.addCriteria(Criteria.where("category").is(category.trim()));
+            query.addCriteria(Criteria.where("category").regex(category.trim(), "i"));
         }
         if (level != null) {
             query.addCriteria(Criteria.where("level").is(level));
         }
-        if (maxPrice != null) {
+        if (maxPrice != null && maxPrice > 0) {
             query.addCriteria(Criteria.where("price").lte(maxPrice));
         }
         if (search != null && !search.trim().isEmpty()) {
             String searchPattern = search.trim();
             query.addCriteria(new Criteria().orOperator(
                     Criteria.where("title").regex(searchPattern, "i"),
-                    Criteria.where("description").regex(searchPattern, "i")
+                    Criteria.where("description").regex(searchPattern, "i"),
+                    Criteria.where("skills").regex(searchPattern, "i")
             ));
         }
 

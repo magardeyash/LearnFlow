@@ -57,18 +57,42 @@ public class LessonService {
     public List<Lesson> getLessonsForCourse(String courseId, String userEmail) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new CustomExceptions.ResourceNotFoundException("Course not found"));
-        User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new CustomExceptions.ResourceNotFoundException("User not found"));
 
-        boolean isEnrolled = user.getEnrolledCourses().contains(courseId);
-        boolean isOwner = course.getInstructorId().equals(user.getId());
-        boolean isAdmin = user.getRole() == Role.ADMIN;
-
-        if (!isEnrolled && !isOwner && !isAdmin) {
-            throw new CustomExceptions.ForbiddenException("You are not enrolled in this course");
+        boolean hasFullAccess = false;
+        if (userEmail != null) {
+            java.util.Optional<User> userOpt = userRepository.findByEmail(userEmail);
+            if (userOpt.isPresent()) {
+                User user = userOpt.get();
+                hasFullAccess = user.getEnrolledCourses().contains(courseId)
+                        || course.getInstructorId().equals(user.getId())
+                        || user.getRole() == Role.ADMIN;
+            }
         }
 
-        return lessonRepository.findByCourseIdOrderByOrderAsc(courseId);
+        List<Lesson> lessons = lessonRepository.findByCourseIdOrderByOrderAsc(courseId);
+        if (hasFullAccess) {
+            return lessons;
+        }
+
+        // Return syllabus for preview: keep videoUrl only for free preview lessons, mask for locked lessons
+        return lessons.stream().map(l -> {
+            if (l.isFree()) {
+                return l;
+            }
+            return Lesson.builder()
+                    .id(l.getId())
+                    .courseId(l.getCourseId())
+                    .title(l.getTitle())
+                    .description(l.getDescription())
+                    .duration(l.getDuration())
+                    .order(l.getOrder())
+                    .isFree(false)
+                    .videoUrl("")
+                    .notesUrl("")
+                    .quizId(null)
+                    .createdAt(l.getCreatedAt())
+                    .build();
+        }).toList();
     }
 
     public Lesson updateLesson(String id, LessonRequest request, String instructorEmail) {

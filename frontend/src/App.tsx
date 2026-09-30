@@ -7,6 +7,7 @@ import { useAuthStore } from './store/authStore';
 // Common Components
 import { Navbar } from './components/common/Navbar';
 import { ProtectedRoute } from './components/common/ProtectedRoute';
+import { GuestRoute } from './components/common/GuestRoute';
 
 // Auth Pages
 import { LoginPage } from './pages/auth/LoginPage';
@@ -59,9 +60,30 @@ export const App: React.FC = () => {
               <Route path="/" element={<Navigate to="/browse" replace />} />
               <Route path="/browse" element={<Browse />} />
               <Route path="/course/:id" element={<CourseDetail />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/register" element={<RegisterPage />} />
-              <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+              <Route
+                path="/login"
+                element={
+                  <GuestRoute>
+                    <LoginPage />
+                  </GuestRoute>
+                }
+              />
+              <Route
+                path="/register"
+                element={
+                  <GuestRoute>
+                    <RegisterPage />
+                  </GuestRoute>
+                }
+              />
+              <Route
+                path="/forgot-password"
+                element={
+                  <GuestRoute>
+                    <ForgotPasswordPage />
+                  </GuestRoute>
+                }
+              />
               <Route path="/unauthorized" element={<Unauthorized />} />
 
               {/* Verified Protected Student Routes */}

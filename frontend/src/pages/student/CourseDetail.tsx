@@ -40,7 +40,7 @@ export const CourseDetail: React.FC = () => {
   const [addingToCart, setAddingToCart] = useState(false);
   const [previewVideoUrl, setPreviewVideoUrl] = useState<string | null>(null);
 
-  const isEnrolled = user?.enrolledCourses.includes(id || '') || false;
+  const isEnrolled = (user?.enrolledCourses || []).includes(id || '');
   const isInCart = cartItems.some((item) => item.id === id);
 
   const handleCartAction = async () => {
@@ -113,7 +113,7 @@ export const CourseDetail: React.FC = () => {
             if (user) {
               updateUser({
                 ...user,
-                enrolledCourses: [...user.enrolledCourses, course.id],
+                enrolledCourses: [...(user.enrolledCourses || []), course.id],
               });
             }
             queryClient.invalidateQueries({ queryKey: ['course', course.id] });
@@ -130,6 +130,21 @@ export const CourseDetail: React.FC = () => {
         prefill: {
           name: user?.name || '',
           email: user?.email || '',
+        },
+        method: {
+          upi: true,
+          card: true,
+          netbanking: true,
+          wallet: true,
+          emi: false,
+        },
+        config: {
+          display: {
+            hide: [],
+            preferences: {
+              show_default_blocks: true,
+            },
+          },
         },
         theme: {
           color: '#16a34a',
@@ -284,10 +299,10 @@ export const CourseDetail: React.FC = () => {
             <div className="p-6 space-y-6">
               <div className="flex items-baseline gap-2">
                 <span className="text-3xl font-black text-slate-100">
-                  {course.price === 0 ? 'FREE' : `$${course.price.toFixed(2)}`}
+                  {course.price === 0 ? 'FREE' : `₹${course.price.toFixed(0)}`}
                 </span>
                 {course.price > 0 && (
-                  <span className="text-xs text-slate-500 font-medium line-through">$199.99</span>
+                  <span className="text-xs text-slate-500 font-medium line-through">₹4999</span>
                 )}
               </div>
 

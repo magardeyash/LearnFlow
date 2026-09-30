@@ -49,7 +49,17 @@ public class Course {
     private Level level;
     
     @Builder.Default
+    @org.springframework.data.mongodb.core.mapping.Field("isPublished")
+    @com.fasterxml.jackson.annotation.JsonProperty("isPublished")
     private boolean isPublished = false;
+
+    public boolean isPublished() {
+        return this.isPublished;
+    }
+
+    public void setPublished(boolean isPublished) {
+        this.isPublished = isPublished;
+    }
     
     @Builder.Default
     private double rating = 0.0;

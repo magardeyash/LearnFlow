@@ -13,7 +13,7 @@ export const Browse: React.FC = () => {
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('');
   const [level, setLevel] = useState<string>('');
-  const [maxPrice, setMaxPrice] = useState<number>(100);
+  const [maxPrice, setMaxPrice] = useState<number>(5000);
 
   const { data: courses, isLoading } = useCourses({
     search: search || undefined,
@@ -53,6 +53,9 @@ export const Browse: React.FC = () => {
                 onChange={(e) => setCategory(e.target.value)}
               >
                 <option value="">All Categories</option>
+                <option value="Web Development">Web Development</option>
+                <option value="Backend Development">Backend Development</option>
+                <option value="Data Science">Data Science</option>
                 <option value="Software Development">Software Development</option>
                 <option value="Business">Business</option>
                 <option value="Design">Design</option>
@@ -79,20 +82,20 @@ export const Browse: React.FC = () => {
             <div className="flex flex-col gap-1.5">
               <div className="flex justify-between text-sm font-semibold text-slate-355 text-slate-300">
                 <span>Max Price</span>
-                <span className="text-brand-500">${maxPrice}</span>
+                <span className="text-brand-500">₹{maxPrice}</span>
               </div>
               <input
                 type="range"
                 min="0"
-                max="250"
-                step="5"
+                max="5000"
+                step="100"
                 value={maxPrice}
                 onChange={(e) => setMaxPrice(parseInt(e.target.value))}
                 className="w-full accent-brand-500 bg-slate-800 rounded-lg h-1.5 cursor-pointer"
               />
               <div className="flex justify-between text-[10px] text-slate-500 font-bold">
-                <span>$0</span>
-                <span>$250</span>
+                <span>₹0</span>
+                <span>₹5000</span>
               </div>
             </div>
           </Card>
@@ -164,7 +167,7 @@ export const Browse: React.FC = () => {
                         <div className="flex items-center justify-between mb-2">
                           <span className="text-xs font-semibold text-slate-500 uppercase">{course.category}</span>
                           <span className="text-sm font-black text-brand-500">
-                            {course.price === 0 ? 'FREE' : `$${course.price.toFixed(2)}`}
+                            {course.price === 0 ? 'FREE' : `₹${course.price.toFixed(0)}`}
                           </span>
                         </div>
                         <h3 className="text-lg font-bold text-slate-100 line-clamp-1">{course.title}</h3>

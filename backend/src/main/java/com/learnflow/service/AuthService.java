@@ -215,6 +215,7 @@ public class AuthService {
                 .role(user.getRole())
                 .isVerified(user.isVerified())
                 .avatar(user.getAvatar())
+                .enrolledCourses(user.getEnrolledCourses() != null ? user.getEnrolledCourses() : java.util.List.of())
                 .build();
     }
 
@@ -226,6 +227,7 @@ public class AuthService {
                 .role(user.getRole())
                 .isVerified(user.isVerified())
                 .avatar(user.getAvatar())
+                .enrolledCourses(user.getEnrolledCourses() != null ? user.getEnrolledCourses() : java.util.List.of())
                 .build();
 
         return AuthResponse.builder()

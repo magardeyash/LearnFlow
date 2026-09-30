@@ -26,9 +26,15 @@ public class CourseController {
     public ResponseEntity<List<Course>> getCourses(
             @RequestParam(required = false) String search,
             @RequestParam(required = false) String category,
-            @RequestParam(required = false) Level level,
+            @RequestParam(required = false) String level,
             @RequestParam(required = false) Double maxPrice) {
-        return ResponseEntity.ok(courseService.getCourses(search, category, level, maxPrice));
+        Level parsedLevel = null;
+        if (level != null && !level.trim().isEmpty()) {
+            try {
+                parsedLevel = Level.valueOf(level.trim().toUpperCase());
+            } catch (IllegalArgumentException ignored) {}
+        }
+        return ResponseEntity.ok(courseService.getCourses(search, category, parsedLevel, maxPrice));
     }
 
     @GetMapping("/{id}")

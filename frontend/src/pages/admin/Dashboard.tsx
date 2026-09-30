@@ -139,7 +139,7 @@ export const AdminDashboard: React.FC = () => {
           </div>
           <div>
             <p className="text-slate-400 text-[10px] font-bold uppercase tracking-wider">Total Revenue</p>
-            <h3 className="text-xl font-black text-slate-100 mt-0.5">${stats?.totalRevenue ? stats.totalRevenue.toFixed(2) : '0.00'}</h3>
+            <h3 className="text-xl font-black text-slate-100 mt-0.5">₹{stats?.totalRevenue ? stats.totalRevenue.toFixed(0) : '0'}</h3>
           </div>
         </Card>
       </div>

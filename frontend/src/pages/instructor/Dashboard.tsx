@@ -132,7 +132,7 @@ export const InstructorDashboard: React.FC = () => {
           </div>
           <div>
             <p className="text-slate-400 text-xs font-semibold uppercase tracking-wider">Total Revenue</p>
-            <h3 className="text-2xl font-black text-slate-100 mt-1">${totalIncome.toFixed(2)}</h3>
+            <h3 className="text-2xl font-black text-slate-100 mt-1">₹{totalIncome.toFixed(0)}</h3>
           </div>
         </Card>
       </div>
@@ -181,7 +181,7 @@ export const InstructorDashboard: React.FC = () => {
                 <div>
                   <div className="flex items-center justify-between mb-2">
                     <Badge variant="brand" className="text-[10px]">{course.category}</Badge>
-                    <span className="text-xs font-bold text-brand-500">${course.price}</span>
+                    <span className="text-xs font-bold text-brand-500">₹{course.price}</span>
                   </div>
                   <h3 className="text-lg font-bold text-slate-100 line-clamp-1">{course.title}</h3>
                   <p className="text-xs text-slate-400 mt-1 line-clamp-2">{course.description}</p>
