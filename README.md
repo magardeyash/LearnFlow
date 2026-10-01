@@ -25,20 +25,20 @@ Supports student enrollment, instructor course authoring, Razorpay payments, AWS
 
 ## Table of Contents
 
-- [Overview](#-overview)
-- [Features](#-features)
-- [Tech Stack](#-tech-stack)
-- [Architecture](#-architecture)
-- [Project Structure](#-project-structure)
-- [Getting Started](#-getting-started)
+- [Overview](#overview)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Architecture](#architecture)
+- [Project Structure](#project-structure)
+- [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Backend Setup](#backend-setup)
   - [Frontend Setup](#frontend-setup)
-- [Environment Variables](#-environment-variables)
-- [API Reference](#-api-reference)
-- [User Roles](#-user-roles)
-- [Screenshots](#-screenshots)
-- [Contributing](#-contributing)
+- [Environment Variables](#environment-variables)
+- [API Reference](#api-reference)
+- [User Roles](#user-roles)
+- [Screenshots](#screenshots)
+- [Contributing](#contributing)
 
 ---
 
